@@ -17,11 +17,15 @@ const io = socketIo(server, {
 
 // Middleware
 app.use(cors());
-app.use(express.static('public'));
+
 
 // Stockage en mémoire des documents par room
 const documents = new Map();
 const usersByRoom = new Map();
+
+
+app.use(express.static(path.join(__dirname, "public")));
+
 
 // Route principale
 app.get('/', (req, res) => {
