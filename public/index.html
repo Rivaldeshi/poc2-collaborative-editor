@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+   
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PoC 2 - Éditeur LaTeX Collaboratif</title>
+    
+
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="/socket.io/socket.io.js"></script>
+   
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>PoC 2 - Éditeur LaTeX Collaboratif</h1>
+            <div class="status">
+                <span class="status-dot" id="statusDot"></span>
+                <span id="statusText">Déconnecté</span>
+            </div>
+        </div>
+
+        <!-- Section de configuration de room -->
+        <div class="room-setup" id="roomSetup">
+            <h2>Rejoindre ou créer une session collaborative</h2>
+            <div>
+                <input type="text" id="userName" placeholder="Votre nom" value="Utilisateur">
+                <input type="text" id="roomId" placeholder="ID de la room (optionnel)">
+                <button onclick="joinRoom()">Rejoindre/Créer</button>
+            </div>
+            <p style="margin-top: 15px; color: #7f8c8d;">
+                Laissez l'ID de room vide pour créer une nouvelle session
+            </p>
+        </div>
+
+        <!-- Section de l'éditeur -->
+        <div class="editor-container" id="editorContainer">
+            <div class="users-bar" id="usersBar">
+                <strong>Utilisateurs connectés:</strong>
+            </div>
+            
+            <textarea class="editor" id="editor" placeholder="Le contenu se charge..."></textarea>
+            
+            <div class="share-info">
+                <strong>Partager cette session:</strong>
+                <div class="share-url">
+                    <input type="text" id="shareUrl" readonly>
+                    <button class="copy-btn" onclick="copyShareUrl()">Copier</button>
+                </div>
+            </div>
+
+            <div class="activity-log" id="activityLog">
+                <div><strong>Journal d'activité:</strong></div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="./js/app.js"> </script>
+    
+</body>
+</html>
