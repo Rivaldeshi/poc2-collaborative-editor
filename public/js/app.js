@@ -20,15 +20,20 @@ function joinRoom() {
     currentUserName = userName;
 
     // Initialiser Socket.IO
-    socket = io();
+    
+
+    socket = io({
+        transports: ['polling'],
+        upgrade: false
+    });
 
     socket.on('connect', () => {
         console.log('Connected to server');
         updateStatus(true, 'Connecté');
-        
+
         // Setup editor BEFORE joining room
         setupEditor();
-        
+
         // Join room after editor is ready
         socket.emit('join-room', { roomId, userName });
 
