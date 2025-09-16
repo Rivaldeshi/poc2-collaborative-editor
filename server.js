@@ -4,6 +4,37 @@ const socketIo = require('socket.io');
 const path = require('path');
 const cors = require('cors');
 
+const DEFAULT_DOCUMMENT =`\\documentclass{article}
+\\usepackage[utf8]{inputenc}
+\\title{Document Collaboratif }
+\\author{Équipe FreeTeX}
+\\date{\\today}
+
+\\begin{document}
+
+\\maketitle
+
+\\section{Introduction}
+Bienvenue dans cet éditeur collaboratif !
+Plusieurs personnes peuvent éditer ce document simultanément.
+
+\\section{Section Collaborative}
+% Commencez à taper ici
+
+\\begin{itemize}
+\\item Premier point
+\\item Deuxième point
+\\end{itemize}
+
+\\section{Formules Mathématiques}
+Voici une équation : $E = mc^2$
+
+\\[
+\\sum_{n=1}^{\\infty} \\frac{1}{n^2} = \\frac{\\pi^2}{6}
+\\]
+
+\\end{document}`
+
 const app = express();
 const server = http.createServer(app);
 
@@ -54,6 +85,7 @@ io.on('connection', (socket) => {
         if (!usersByRoom.has(roomId)) {
             usersByRoom.set(roomId, new Map());
         }
+
         usersByRoom.get(roomId).set(socket.id, {
             name: userName,
             cursor: 0
@@ -61,36 +93,7 @@ io.on('connection', (socket) => {
 
         // Envoyer le document existant ou en créer un nouveau
         if (!documents.has(roomId)) {
-            const defaultContent = `\\documentclass{article}
-\\usepackage[utf8]{inputenc}
-\\title{Document Collaboratif - ${roomId}}
-\\author{Équipe FreeTeX}
-\\date{\\today}
-
-\\begin{document}
-
-\\maketitle
-
-\\section{Introduction}
-Bienvenue dans cet éditeur collaboratif !
-Plusieurs personnes peuvent éditer ce document simultanément.
-
-\\section{Section Collaborative}
-% Commencez à taper ici
-
-\\begin{itemize}
-\\item Premier point
-\\item Deuxième point
-\\end{itemize}
-
-\\section{Formules Mathématiques}
-Voici une équation : $E = mc^2$
-
-\\[
-\\sum_{n=1}^{\\infty} \\frac{1}{n^2} = \\frac{\\pi^2}{6}
-\\]
-
-\\end{document}`;
+            const defaultContent = DEFAULT_DOCUMMENT;
 
             documents.set(roomId, {
                 content: defaultContent,
@@ -184,3 +187,5 @@ const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
     console.log(`Serveur démarré sur http://localhost:${PORT}`);
 });
+
+

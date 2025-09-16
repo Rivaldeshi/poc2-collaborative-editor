@@ -15,12 +15,8 @@ function joinRoom() {
         alert('Veuillez entrer votre nom');
         return;
     }
-
     currentRoomId = roomId;
-    currentUserName = userName;
-
-    // Initialiser Socket.IO
-    
+    currentUserName = userName;  
 
     socket = io({
         transports: ['polling'],
@@ -118,7 +114,6 @@ function setupEditor() {
         }
     });
 
-    // Use 'keyup' and 'mouseup' instead of 'selectionchange' for better compatibility
     const handleCursorMove = () => {
         if (socket && currentRoomId) {
             socket.emit('cursor-position', {
